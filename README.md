@@ -21,6 +21,7 @@ https://github.com/takusan23/AndroidGetWidgetText
 
 - BluetoothDevice#getBatteryLevel()
   - 大雑把でしか取れない。他のデバイスでも対応させたい場合はこれしか無いけど。
+    - 多分クイック設定パネルに表示されてる残量と同じ値になると思われ
   - ついでに`@UnsupportedAppUsage`アノテーションのせいでリフレクションしないと行けない
 - 設定アプリのソースコードを読め
   - `有効、L: 電池残量100% R: 電池残量100%`みたいなやつ
