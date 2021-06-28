@@ -33,4 +33,4 @@ https://github.com/takusan23/AndroidGetWidgetText
 ## 終わりに
 Xperia 5 Ⅱのみ動作確認済。  
 ~~OneUIとかのガラッと見た目変えてくるROMの場合はうまく通知が出るかわからん。~~  
-Galaxy S10でも動くみたいです。よかった
+Galaxy S10でも動くみたいです。さんくす友達
