@@ -55,9 +55,9 @@ object EarphoneStatus {
         val left: String,
         val right: String,
         val case: String,
-        val leftNum: Int = left.replace("%", "").toInt(),
-        val rightNum: Int = right.replace("%", "").toInt(),
-        val caseNum: Int = case.replace("%", "").toInt(),
+        val leftNum: Int = left.replace("%", "").toIntOrNull() ?: -1,
+        val rightNum: Int = right.replace("%", "").toIntOrNull() ?: -1,
+        val caseNum: Int = case.replace("%", "").toIntOrNull() ?: -1,
     )
 
 }

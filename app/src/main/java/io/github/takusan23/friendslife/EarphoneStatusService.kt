@@ -2,13 +2,14 @@ package io.github.takusan23.friendslife
 
 import android.app.PendingIntent
 import android.app.Service
+import android.bluetooth.BluetoothDevice
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.IBinder
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import kotlin.coroutines.coroutineContext
 
 /**
  * イヤホンの電池残量をウイジェットから取得するサービス
@@ -21,10 +22,18 @@ import kotlinx.coroutines.launch
  * */
 class EarphoneStatusService : Service() {
 
+    private val scope = CoroutineScope(Dispatchers.Main)
+
     /** ブロードキャストを受信できるように。通知からのイベントはブロードキャストを経由する必要あり */
     private val broadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            updateNotification()
+            scope.launch {
+                // BluetoothDevice.ACTION_ACL_CONNECTEDの場合は少し待つ
+                if (intent?.action == BluetoothDevice.ACTION_ACL_CONNECTED) {
+                    delay(10 * 1000)
+                }
+                updateNotification()
+            }
         }
     }
 
@@ -42,13 +51,16 @@ class EarphoneStatusService : Service() {
 
     /** ブロードキャスト初期化 */
     private fun initBroadcast() {
-        val intentFilter = IntentFilter("update")
+        val intentFilter = IntentFilter().apply {
+            addAction("update")
+            addAction(BluetoothDevice.ACTION_ACL_CONNECTED) // ペアリング済みデバイスと接続できたら呼ばれる
+        }
         registerReceiver(broadcastReceiver, intentFilter)
     }
 
     /** 最新の情報に更新する */
     private fun updateNotification() {
-        GlobalScope.launch {
+        scope.launch {
             val earphoneData = EarphoneStatus.getEarphoneData(this@EarphoneStatusService)
             startForeground(EarphoneStatusNotification.notificationId, EarphoneStatusNotification.earphoneStatusNotify(this@EarphoneStatusService, earphoneData))
         }
@@ -61,6 +73,7 @@ class EarphoneStatusService : Service() {
     override fun onDestroy() {
         super.onDestroy()
         unregisterReceiver(broadcastReceiver)
+        scope.cancel()
     }
 
     companion object {
