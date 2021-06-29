@@ -21,6 +21,7 @@ https://github.com/takusan23/AndroidGetWidgetText
 
 - BluetoothDevice#getBatteryLevel()
   - 大雑把でしか取れない。他のデバイスでも対応させたい場合はこれしか無いけど。
+    - 多分クイック設定パネルに表示されてる残量と同じ値になると思われ
   - ついでに`@UnsupportedAppUsage`アノテーションのせいでリフレクションしないと行けない
 - 設定アプリのソースコードを読め
   - `有効、L: 電池残量100% R: 電池残量100%`みたいなやつ
@@ -31,4 +32,5 @@ https://github.com/takusan23/AndroidGetWidgetText
 
 ## 終わりに
 Xperia 5 Ⅱのみ動作確認済。  
-OneUIとかのガラッと見た目変えてくるROMの場合はうまく通知が出るかわからん。
+~~OneUIとかのガラッと見た目変えてくるROMの場合はうまく通知が出るかわからん。~~  
+Galaxy S10でも動くみたいです。さんくす友達
