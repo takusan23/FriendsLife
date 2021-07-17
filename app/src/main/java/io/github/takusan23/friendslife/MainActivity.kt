@@ -26,24 +26,38 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
 
+
         // 未設定時のみ
         val widgetId = prefSetting.getInt("widget_id", -1)
+
         if (widgetId == -1) {
             // ウイジェットピッカーでSonyのイヤホンアプリを選んでもらう
-            Toast.makeText(this, "Sonyのイヤホンアプリのウイジェットを選択してください", Toast.LENGTH_SHORT).show()
-            val appWidgetId = appWidgetHost.allocateAppWidgetId()
-            val intent = Intent(AppWidgetManager.ACTION_APPWIDGET_PICK).apply {
-                putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
-            }
-            startActivityForResult(intent, REQUEST_PICK_WIDGET)
+            showWidgetPicker()
         } else {
             // サービス起動と終了ボタン初期化
             startService()
             viewBinding.activityMainStopServiceButton.setOnClickListener {
                 stopService(Intent(this, EarphoneStatusService::class.java))
             }
+            // うまく動かない場合は設定をリセットする
+            viewBinding.activityMainFactoryResetButton.setOnClickListener {
+                prefSetting.edit { remove("widget_id") }
+                // 再度選んでもらう
+                showWidgetPicker()
+            }
         }
 
+    }
+
+    /** ウイジェットピッカーを出す */
+    private fun showWidgetPicker() {
+        // ウイジェットピッカーでSonyのイヤホンアプリを選んでもらう
+        Toast.makeText(this, "Sonyのイヤホンアプリのウイジェットを選択してください", Toast.LENGTH_SHORT).show()
+        val appWidgetId = appWidgetHost.allocateAppWidgetId()
+        val intent = Intent(AppWidgetManager.ACTION_APPWIDGET_PICK).apply {
+            putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+        }
+        startActivityForResult(intent, REQUEST_PICK_WIDGET)
     }
 
     /** イヤホンのバッテリー残量取得サービスを起動する */
