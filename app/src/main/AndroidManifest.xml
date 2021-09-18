@@ -5,7 +5,10 @@
     <!-- 書き忘れ第二位狙えるぞ -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+
+    <!--  端末が起動したブロードキャストを受け取る  -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -26,6 +29,15 @@
         </activity>
 
         <service android:name=".EarphoneStatusService" />
+
+        <receiver
+            android:name=".BootCompletedBroadCastReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
 
     </application>
 

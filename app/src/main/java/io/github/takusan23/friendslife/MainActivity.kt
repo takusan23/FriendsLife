@@ -45,6 +45,11 @@ class MainActivity : AppCompatActivity() {
                 // 再度選んでもらう
                 showWidgetPicker()
             }
+            // 端末の起動時にサービスを起動する
+            viewBinding.activityMainBootCompleted.isChecked = prefSetting.getBoolean("boot_completed", false)
+            viewBinding.activityMainBootCompleted.setOnCheckedChangeListener { buttonView, isChecked ->
+                prefSetting.edit { putBoolean("boot_completed", isChecked) }
+            }
         }
 
     }

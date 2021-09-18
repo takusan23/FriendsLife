@@ -25,4 +25,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_main_stop_service_button" />
+
+    <Switch
+        android:id="@+id/activity_main_boot_completed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:text="端末の起動時にサービスを起動する"
+        app:layout_constraintBottom_toTopOf="@+id/activity_main_factory_reset_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_main_stop_service_button" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
